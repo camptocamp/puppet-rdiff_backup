@@ -8,9 +8,12 @@ class rdiff-backup::server {
   }
   
   file {"/etc/rdiff-backup.d":
-    ensure => directory,
-    owner  => root,
-    group  => root,
+    ensure  => directory,
+    owner   => root,
+    group   => root,
+    recurse => true,
+    purge   => true,
+    force   => true,
   }
 
   if defined (Package["curl"]) {
