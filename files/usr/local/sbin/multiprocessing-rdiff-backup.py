@@ -86,19 +86,23 @@ if __name__=="__main__":
     sys.exit(1)
 
   options = OptionParser(version="1.0")
-  options.add_option("-H", "--host", dest="host", help="launch backup for <host> only")
+  options.add_option("--host", dest="host", help="launch backup for <host> only")
+  options.add_option("--all", action="store_true", help="launch backup for all hosts")
   (opt, args) = options.parse_args()
 
   mainConf = readMainConfig()
   nbprocs = int(mainConf['max_process'])
   backups = getBackupList()
   
+  if not (opt.host or opt.all):
+    options.print_help()
+    sys.exit(1)
+
   if opt.host:
     nbprocs = 1
     backups = filter(lambda x: x['host'] == opt.host, backups)
     if not backups:
-      print "Host %s not found!" % opt.host
-      sys.exit(1)
+      options.error("Host %s not found!" % opt.host)
 
   mainConf = readMainConfig()
   pool = Pool(processes=nbprocs)
