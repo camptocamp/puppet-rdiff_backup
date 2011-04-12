@@ -69,7 +69,7 @@ class rdiff-backup::server {
   # cron to start multi-thread script
   cron {"start multiprocessing backup script":
     ensure  => present,
-    command => "/usr/bin/python /usr/local/sbin/multiprocessing-rdiff-backup.py",
+    command => "/usr/bin/python /usr/local/sbin/multiprocessing-rdiff-backup.py --all",
     minute  => "0",
     hour    => "1",
     user    => "root",
