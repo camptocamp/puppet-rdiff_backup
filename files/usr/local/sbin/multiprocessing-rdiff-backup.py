@@ -32,32 +32,36 @@ def backup(host):
     env.append("%s/rdiff-backup-%s/%s/python%s.%s/site-packages" % (
       _RBDIR, host['version'], l, sys.version_info[0], sys.version_info[1]))
 
-  pa = subprocess.Popen(
+  proc = subprocess.Popen(
     args,
     env={"PYTHONPATH": ":".join(env)}, 
     stdout=subprocess.PIPE, 
     stderr=subprocess.PIPE, 
     close_fds=True)
 
-  status = os.waitpid(pa.pid,0)[1]
+  status = os.waitpid(proc.pid,0)[1]
+  output = proc.stdout.read()
+  if status: output += proc.stderr.read()
    
   if not status:
     args = []
     args.append("%s/rdiff-backup-%s/bin/rdiff-backup" % (_RBDIR, host['version']))
     args.extend(["--remove-older-than", host['retention'], "--force", host['destination']])
   
-    pb = subprocess.Popen(
+    proc = subprocess.Popen(
       args, 
       env={"PYTHONPATH": ":".join(env)},
       stdout=subprocess.PIPE, 
       stderr=subprocess.PIPE, 
       close_fds=True)  
     
-    status = os.waitpid(pb.pid,0)[1]
+    status = os.waitpid(proc.pid,0)[1]
+    output += proc.stdout.read()
+    if status: output += proc.stderr.read()
 
   # writes a logfile with rdiff-backup stdin and stderr
   flog = open(logFile, 'w')
-  flog.write(pa.stdout.read()+pb.stdout.read())
+  flog.write(output)
   flog.write("RDIFF-BACKUP-EXIT-STATUS=%s\n" % status) 
   flog.close()
 
