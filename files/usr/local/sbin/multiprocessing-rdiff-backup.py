@@ -13,6 +13,7 @@ from commands import getstatusoutput
 
 _RBDIR  = "/opt/rdiff-backup"
 _CONFIG = "/etc/multiprocessing-rdiff-backup.conf"
+_LOCKFILE="/tmp/multiprocessing-rdiff-backup.running"
 
 def backup(host):
   
@@ -74,6 +75,19 @@ def getBackupList():
     backups.append(dict(config.items('hostconfig')))
   return filter(lambda x:x['enable'].lower() == "true", backups)
 
+def addlock():
+  if os.path.exists(_LOCKFILE):
+    print "multiprocessing-rdiff-backup --all is already running!\n"
+    sys.exit(1)
+  else:
+    f = open(_LOCKFILE,'w')
+    f.write("multiprocessing-rdiff-backup session is running!\n")
+    f.close()
+
+def dellock():
+  if os.path.exists(_LOCKFILE):
+    os.remove(_LOCKFILE)
+
 def readMainConfig():
   if not os.path.exists(_CONFIG):
     print "Main configuration %s not found!" % mainConfig
@@ -107,8 +121,13 @@ if __name__=="__main__":
     backups = filter(lambda x: x['host'] == opt.host, backups)
     if not backups:
       options.error("Host %s not found!" % opt.host)
+  
+  if opt.all:
+    addlock()
 
   mainConf = readMainConfig()
   pool = Pool(processes=nbprocs)
   pool.map(backup, backups)
 
+  if opt.all:
+    dellock()
