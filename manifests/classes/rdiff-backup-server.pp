@@ -46,6 +46,10 @@ class rdiff-backup::server {
     ensure => directory,
   }
 
+  tidy {$params::logs_dir:
+    age => "5d",
+  } 
+
   rdiff-backup::pool {"pool1":
     ensure          => present,
     max_process     => $params::max_process,
