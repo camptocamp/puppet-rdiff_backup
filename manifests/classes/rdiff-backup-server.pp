@@ -1,5 +1,6 @@
 class rdiff-backup::server {
 
+  include rdiff-backup::params
   include buildenv::c
   include python::dev
 
@@ -37,25 +38,18 @@ class rdiff-backup::server {
     }
   }
 
-  if ($rdiff_backup_backupdir) {
-    $backupdir = $rdiff_backup_backupdir
-  } else {
-    $backupdir = "/srv/rdiff-backup"
-  }
-
-  file {$backupdir:
+  file {$params::dir:
     ensure => directory,
   }
 
-  file {"/var/log/rdiff-backup":
+  file {$params::logs_dir:
     ensure => directory,
   }
 
-  file {"/etc/multiprocessing-rdiff-backup.conf":
-    ensure => present,
-    owner => root,
-    group => root,
-    content => template("rdiff-backup/mainconfig.erb"),
+  rdiff-backup::pool {"pool1":
+    ensure          => present,
+    max_process     => $params::max_process,
+    destination_dir => $params::dir,
   }
 
   file {"/usr/local/sbin/multiprocessing-rdiff-backup.py":
@@ -70,8 +64,8 @@ class rdiff-backup::server {
   cron {"start multiprocessing backup script":
     ensure  => present,
     command => "/usr/bin/python /usr/local/sbin/multiprocessing-rdiff-backup.py --all",
-    minute  => "0",
-    hour    => "1",
+    minute  => $params::cron_minute,
+    hour    => $params::cron_hour,
     user    => "root",
     require => File["/usr/local/sbin/multiprocessing-rdiff-backup.py"],
   }
