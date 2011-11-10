@@ -4,6 +4,8 @@ class rdiff-backup::server {
   include buildenv::c
   include python::dev
 
+  $logs_dir = $params::logs_dir
+
   file {"/opt/rdiff-backup":
     ensure => directory,
   }
@@ -42,12 +44,13 @@ class rdiff-backup::server {
     ensure => directory,
   }
 
-  file {$params::logs_dir:
+  file {$logs_dir:
     ensure => directory,
   }
 
-  tidy {$params::logs_dir:
-    age => "5d",
+  tidy {$logs_dir:
+    age     => $params::logs_age,
+    recurse => true, 
   } 
 
   rdiff-backup::pool {"pool1":
@@ -57,11 +60,11 @@ class rdiff-backup::server {
   }
 
   file {"/usr/local/sbin/multiprocessing-rdiff-backup.py":
-    ensure => present,
-    owner  => root,
-    group  => root,
-    mode   => 755,
-    source => "puppet:///rdiff-backup/usr/local/sbin/multiprocessing-rdiff-backup.py",
+    ensure  => present,
+    owner   => root,
+    group   => root,
+    mode    => 755,
+    content => template("rdiff-backup/multiprocessing-rdiff-backup.py.erb"),
   }
   
   # cron to start multi-thread script
