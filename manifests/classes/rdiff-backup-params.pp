@@ -23,8 +23,18 @@ class rdiff-backup::params {
   }
 
   $logs_dir = $rdiff_backup_logs_dir ? {
-    ""      => '/var/log/rdiff-backups',
+    ""      => '/var/log/rdiff-backup',
     default => $rdiff_backup_logs_dir,
+  }
+
+  $logs_age = $rdiff_backup_logs_age ? {
+    ""      => '5d',
+    default => $rdiff_backup_logs_age,
+  }
+
+  $download_url = $rdiff_backup_download_url ? {
+    ""      => 'http://ftp.igh.cnrs.fr/pub/nongnu/rdiff-backup/',
+    default => $rdiff_backup_download_url,
   }
 
 }
