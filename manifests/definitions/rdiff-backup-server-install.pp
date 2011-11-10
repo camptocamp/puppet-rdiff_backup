@@ -1,12 +1,12 @@
 define rdiff-backup::server::install ($ensure=present) {
+
   $version = "rdiff-backup-${name}"
-  $url = "http://mirror.lihnidos.org/GNU/savannah/rdiff-backup/${version}.tar.gz"
 
   case $ensure {
     present: {
 
       common::archive::tar-gz{"/opt/rdiff-backup/${version}/.installed":
-        source  => $url,
+        source  => "${params::download_url}${version}.tar.gz",
         target  => "/opt/rdiff-backup",
         notify  => Exec["install ${version}"],
         require => File["/opt/rdiff-backup"],
