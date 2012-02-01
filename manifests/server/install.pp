@@ -5,7 +5,7 @@ define rdiff-backup::server::install ($ensure=present) {
   case $ensure {
     present: {
 
-      common::archive::tar-gz{"/opt/rdiff-backup/${version}/.installed":
+      archive::tar-gz{"/opt/rdiff-backup/${version}/.installed":
         source  => "${params::download_url}${version}.tar.gz",
         target  => "/opt/rdiff-backup",
         notify  => Exec["install ${version}"],
