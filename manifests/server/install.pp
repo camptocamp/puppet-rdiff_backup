@@ -15,7 +15,8 @@ define rdiff-backup::server::install ($ensure=present) {
   }
 
   exec {"install ${version}":
-    command     => "cd /opt/rdiff-backup/${version} && python setup.py install --prefix=/opt/rdiff-backup/${version}",
+    cwd         => "/opt/rdiff-backup/${version}",
+    command     => "python setup.py install --prefix=/opt/rdiff-backup/${version}",
     unless      => "test -f /opt/rdiff-backup/${version}/bin/rdiff-backup",
     refreshonly => true,
     require     => Package["librsync-devel", "python-devel"],
