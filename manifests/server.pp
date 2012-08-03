@@ -3,6 +3,7 @@ class rdiff-backup::server {
   include rdiff-backup::params
   include buildenv::c
   include python::dev
+  include concat::setup
 
   $logs_dir = $params::logs_dir
 
@@ -75,6 +76,12 @@ class rdiff-backup::server {
     hour    => $params::cron_hour,
     user    => "root",
     require => File["/usr/local/sbin/multiprocessing-rdiff-backup.py"],
+  }
+
+  concat {'/etc/multiprocessing-rdiff-backup.conf':
+    owner => 'root',
+    group => 'root',
+    mode  => '0644',
   }
 
 }

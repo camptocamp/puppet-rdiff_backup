@@ -3,11 +3,10 @@ define rdiff-backup::pool (
   $max_process, 
   $destination_dir) {
 
-  common::concatfilepart { $name:
+  concat::fragment {$name:
     ensure  => $ensure,
-    manage  => true,
-    file    => "/etc/multiprocessing-rdiff-backup.conf",
-    content => template("rdiff-backup/pool.erb"),
+    target  => '/etc/multiprocessing-rdiff-backup.conf',
+    content => template('rdiff-backup/pool.erb'),
   }
 
 }
