@@ -1,5 +1,7 @@
 define rdiff-backup::server::install ($ensure=present) {
 
+  include rdiff-backup::params
+
   $version = "rdiff-backup-${name}"
 
   archive{"${version}":
