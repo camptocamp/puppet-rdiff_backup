@@ -4,24 +4,41 @@ define rdiff-backup::server::install ($ensure=present) {
 
   $version = "rdiff-backup-${name}"
 
-  archive{"${version}":
-    ensure   => $ensure,
-    checksum => false,
-    url      => "${params::download_url}${version}.tar.gz",
-    target   => '/opt/rdiff-backup',
-    notify   => $ensure ? {
-      present => Exec["install ${version}"],
-      default => undef
-    },
-    require  => File["/opt/rdiff-backup"],
-  }
+  case $ensure {
+    present: {
+      archive{$version:
+        ensure   => present,
+        checksum => false,
+        url      => "${params::download_url}${version}.tar.gz",
+        target   => '/opt/rdiff-backup',
+        notify   => Exec["install ${version}"],
+        require  => File['/opt/rdiff-backup'],
+      }
 
-  exec {"install ${version}":
-    cwd         => "/opt/rdiff-backup/${version}",
-    command     => "python setup.py install --prefix=/opt/rdiff-backup/${version}",
-    unless      => "test -f /opt/rdiff-backup/${version}/bin/rdiff-backup",
-    refreshonly => true,
-    require     => Package["librsync-devel", "python-devel"],
+      exec {"install ${version}":
+        cwd         => "/opt/rdiff-backup/${version}",
+        command     => "python setup.py install --prefix=/opt/rdiff-backup/${version}",
+        unless      => "test -f /opt/rdiff-backup/${version}/bin/rdiff-backup",
+        refreshonly => true,
+        require     => Package['librsync-devel', 'python-devel'],
+      }
+    }
+    absent: {
+      file {"/opt/rdiff-backup/${version}":
+        ensure  => absent,
+        backup  => false,
+        force   => true,
+        recurse => true,
+      }
+
+      file {"/usr/src/${version}.tar.gz":
+        ensure => absent,
+        backup => false,
+      }
+    }
+    default: {
+      fail "Unknown ensure ${ensure} for rdiff-backup::server::install"
+    }
   }
 
 }
