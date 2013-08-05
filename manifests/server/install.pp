@@ -1,6 +1,6 @@
-define rdiff-backup::server::install ($ensure=present) {
+define rdiff_backup::server::install ($ensure=present) {
 
-  include rdiff-backup::params
+  include rdiff_backup::params
 
   $version = "rdiff-backup-${name}"
 
@@ -37,7 +37,7 @@ define rdiff-backup::server::install ($ensure=present) {
       }
     }
     default: {
-      fail "Unknown ensure ${ensure} for rdiff-backup::server::install"
+      fail "Unknown ensure ${ensure} for rdiff_backup::server::install"
     }
   }
 

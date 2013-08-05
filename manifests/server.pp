@@ -1,17 +1,17 @@
-class rdiff-backup::server {
+class rdiff_backup::server {
 
-  include rdiff-backup::params
+  include rdiff_backup::params
   include buildenv::c
   include python::dev
   include concat::setup
 
   $logs_dir = $params::logs_dir
 
-  file {"/opt/rdiff-backup":
+  file {'/opt/rdiff-backup':
     ensure => directory,
   }
-  
-  file {"/etc/rdiff-backup.d":
+
+  file {'/etc/rdiff-backup.d':
     ensure  => directory,
     owner   => root,
     group   => root,
@@ -20,23 +20,23 @@ class rdiff-backup::server {
     force   => true,
   }
 
-  if defined (Package["curl"]) {
-    notice "package curl is already defined"
+  if defined (Package['curl']) {
+    notice 'package curl is already defined'
   } else {
-    package {"curl":
+    package {'curl':
       ensure => present,
     }
   }
 
-  case $operatingsystem {
+  case $::operatingsystem {
     Debian: {
       package {
-        "librsync-dev":  ensure => present, alias => "librsync-devel";
+        'librsync-dev':  ensure => present, alias => 'librsync-devel';
       }
     }
     RedHat: {
       package {
-        "librsync-devel": ensure => present, alias => "librsync-devel";
+        'librsync-devel': ensure => present, alias => 'librsync-devel';
       }
     }
   }
@@ -51,31 +51,31 @@ class rdiff-backup::server {
 
   tidy {$logs_dir:
     age     => $params::logs_age,
-    recurse => true, 
-  } 
+    recurse => true,
+  }
 
-  rdiff-backup::pool {"pool1":
+  rdiff_backup::pool {'pool1':
     ensure          => present,
     max_process     => $params::max_process,
     destination_dir => $params::dir,
   }
 
-  file {"/usr/local/sbin/multiprocessing-rdiff-backup.py":
+  file {'/usr/local/sbin/multiprocessing-rdiff-backup.py':
     ensure  => present,
-    owner   => root,
-    group   => root,
-    mode    => 755,
-    content => template("rdiff-backup/multiprocessing-rdiff-backup.py.erb"),
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+    content => template('rdiff_backup/multiprocessing-rdiff-backup.py.erb'),
   }
-  
+
   # cron to start multi-thread script
-  cron {"start multiprocessing backup script":
+  cron {'start multiprocessing backup script':
     ensure  => present,
-    command => "/usr/bin/python /usr/local/sbin/multiprocessing-rdiff-backup.py --all",
+    command => '/usr/bin/python /usr/local/sbin/multiprocessing-rdiff-backup.py --all',
     minute  => $params::cron_minute,
     hour    => $params::cron_hour,
-    user    => "root",
-    require => File["/usr/local/sbin/multiprocessing-rdiff-backup.py"],
+    user    => 'root',
+    require => File['/usr/local/sbin/multiprocessing-rdiff-backup.py'],
   }
 
   concat {'/etc/multiprocessing-rdiff-backup.conf':

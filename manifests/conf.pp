@@ -1,9 +1,17 @@
-define rdiff-backup::conf ($ensure=present, $enable=true, $version, $source, $destination, $args, $retention) {
+define rdiff_backup::conf (
+  $version,
+  $source,
+  $destination,
+  $args,
+  $retention,
+  $ensure=present,
+  $enable=true,
+) {
 
   file {"/etc/rdiff-backup.d/${name}.conf":
     ensure  => $ensure,
-    content => template("rdiff-backup/hostconfig.erb"),
-    require => File["/etc/rdiff-backup.d"],
+    content => template('rdiff_backup/hostconfig.erb'),
+    require => File['/etc/rdiff-backup.d'],
   }
 
 }
