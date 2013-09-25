@@ -1,6 +1,8 @@
-define rdiff_backup::server::install ($ensure=present) {
+define rdiff_backup::server::install (
+  $ensure=present,
+) {
 
-  include rdiff_backup::params
+  include ::rdiff_backup::params
 
   $version = "rdiff-backup-${name}"
 
@@ -9,7 +11,7 @@ define rdiff_backup::server::install ($ensure=present) {
       archive{$version:
         ensure   => present,
         checksum => false,
-        url      => "${params::download_url}${version}.tar.gz",
+        url      => "${rdiff_backup::params::download_url}${version}.tar.gz",
         target   => '/opt/rdiff-backup',
         notify   => Exec["install ${version}"],
         require  => File['/opt/rdiff-backup'],
