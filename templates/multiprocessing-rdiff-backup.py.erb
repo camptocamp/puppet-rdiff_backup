@@ -13,7 +13,7 @@ from multiprocessing import Pool
 from commands import getstatusoutput
 
 _RBDIR    = "/opt/rdiff-backup"
-_LOGDIR   = "<%= logs_dir %>"
+_LOGDIR   = "<%= @logs_dir %>"
 _CONFIG   = "/etc/multiprocessing-rdiff-backup.conf"
 _LOCKFILE = "/tmp/multiprocessing-rdiff-backup.running"
 

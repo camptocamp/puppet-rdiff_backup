@@ -1,11 +1,19 @@
-class rdiff_backup::server {
+class rdiff_backup::server (
+  $dir = $rdiff_backup::params::dir,
+  $logs_dir = $rdiff_backup::params::logs_dir,
+  $logs_age = $rdiff_backup::params::logs_age,
+  $max_process = $rdiff_backup::params::max_process,
+  $cron_hour = $rdiff_backup::params::cron_hour,
+  $cron_minute = $rdiff_backup::params::cron_minute,
+) inherits ::rdiff_backup::params {
 
-  include rdiff_backup::params
-  include buildenv::c
-  include python::dev
-  include concat::setup
+  validate_absolute_path($dir)
+  validate_absolute_path($logs_dir)
 
-  $logs_dir = $params::logs_dir
+  include ::buildenv::c
+  include ::python::dev
+  include ::concat::setup
+
 
   file {'/opt/rdiff-backup':
     ensure => directory,
@@ -41,7 +49,7 @@ class rdiff_backup::server {
     }
   }
 
-  file {$params::dir:
+  file {$dir:
     ensure => directory,
   }
 
@@ -50,14 +58,14 @@ class rdiff_backup::server {
   }
 
   tidy {$logs_dir:
-    age     => $params::logs_age,
+    age     => $logs_age,
     recurse => true,
   }
 
   rdiff_backup::pool {'pool1':
     ensure          => present,
-    max_process     => $params::max_process,
-    destination_dir => $params::dir,
+    max_process     => $max_process,
+    destination_dir => $dir,
   }
 
   file {'/usr/local/sbin/multiprocessing-rdiff-backup.py':
@@ -72,8 +80,8 @@ class rdiff_backup::server {
   cron {'start multiprocessing backup script':
     ensure  => present,
     command => '/usr/bin/python /usr/local/sbin/multiprocessing-rdiff-backup.py --all',
-    minute  => $params::cron_minute,
-    hour    => $params::cron_hour,
+    minute  => $cron_minute,
+    hour    => $cron_hour,
     user    => 'root',
     require => File['/usr/local/sbin/multiprocessing-rdiff-backup.py'],
   }
