@@ -12,7 +12,6 @@ class rdiff_backup::server (
 
   include ::buildenv::c
   include ::python::dev
-  include ::concat::setup
 
 
   file {'/opt/rdiff-backup':
