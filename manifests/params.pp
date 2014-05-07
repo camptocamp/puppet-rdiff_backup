@@ -1,40 +1,19 @@
 class rdiff_backup::params {
 
   # for the default pool (the first one)
-  $dir = $rdiff_backup_dir ? {
-    ''      => '/srv/rdiff-backup',
-    default => $rdiff_backup_dir,
-  }
+  $dir = '/srv/rdiff-backup'
 
   # relative to the default pool (the first one)
-  $max_process = $rdiff_backup_max_process ? {
-    ''      => 5,
-    default => $rdiff_backup_max_process,
-  }
+  $max_process = 5
 
-  $cron_hour = $rdiff_backup_cron_hour ? {
-    ''      => 1,
-    default => $rdiff_backup_cron_hour,
-  }
+  $cron_hour = 1
 
-  $cron_minute = $rdiff_backup_cron_minute ? {
-    ''      => 0,
-    default => $rdiff_backup_cron_minute,
-  }
+  $cron_minute = 0
 
-  $logs_dir = $rdiff_backup_logs_dir ? {
-    ''      => '/var/log/rdiff-backup',
-    default => $rdiff_backup_logs_dir,
-  }
+  $logs_dir = '/var/log/rdiff-backup'
 
-  $logs_age = $rdiff_backup_logs_age ? {
-    ''      => '5d',
-    default => $rdiff_backup_logs_age,
-  }
+  $logs_age = '5d'
 
-  $download_url = $rdiff_backup_download_url ? {
-    ''      => 'http://ftp.igh.cnrs.fr/pub/nongnu/rdiff-backup/',
-    default => $rdiff_backup_download_url,
-  }
+  $download_url = 'http://ftp.igh.cnrs.fr/pub/nongnu/rdiff-backup/'
 
 }
