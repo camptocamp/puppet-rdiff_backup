@@ -1,0 +1,7 @@
+fixtures:
+  repositories:
+    buildenv: https://github.com/camptocamp/puppet-buildenv.git
+    concat: https://github.com/puppetlabs/puppetlabs-concat.git
+    python: https://github.com/camptocamp/puppet-python.git
+  symlinks:
+    rdiff_backup: "#{source_dir}"
