@@ -36,15 +36,18 @@ class rdiff_backup::server (
   }
 
   case $::operatingsystem {
-    Debian: {
+    'Debian': {
       package {
         'librsync-dev':  ensure => present, alias => 'librsync-devel';
       }
     }
-    RedHat: {
+    'RedHat': {
       package {
         'librsync-devel': ensure => present, alias => 'librsync-devel';
       }
+    }
+    default: {
+      fail "Operating System not supported: ${::operatingsystem}"
     }
   }
 
