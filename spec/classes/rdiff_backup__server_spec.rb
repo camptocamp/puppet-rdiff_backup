@@ -1,13 +1,16 @@
 require 'spec_helper'
 
 describe 'rdiff_backup::server' do
-  let(:facts) {{
-    :concat_basedir  => '/foo',
-    :id              => 'root',
-    :kernel          => 'Linux',
-    :operatingsystem => 'Debian',
-    :osfamily        => 'Debian',
-    :path            => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
-  }}
-  it { should compile.with_all_deps }
+
+  on_supported_os.each do |os, facts|
+    context "on #{os}" do
+      let(:facts) do
+        facts.merge({
+          :concat_basedir  => '/foo',
+        })
+      end
+
+      it { should compile.with_all_deps }
+    end
+  end
 end
