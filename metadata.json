@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "author": "Camptocamp",
   "summary": "Puppet Rdiff_backup module",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "source": "https://github.com/camptocamp/puppet-rdiff-backup",
   "project_page": "https://github.com/camptocamp/puppet-rdiff-backup",
   "issues_url": "https://github.com/camptocamp/puppet-rdiff-backup/issues",
