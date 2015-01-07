@@ -7,7 +7,7 @@ define rdiff_backup::server::install (
   $version = "rdiff-backup-${name}"
 
   case $ensure {
-    present: {
+    'present': {
       archive{$version:
         ensure   => present,
         checksum => false,
@@ -25,7 +25,7 @@ define rdiff_backup::server::install (
         require     => Package['librsync-devel', 'python-devel'],
       }
     }
-    absent: {
+    'absent': {
       file {"/opt/rdiff-backup/${version}":
         ensure  => absent,
         backup  => false,
