@@ -71,7 +71,7 @@ class rdiff_backup::server (
   }
 
   file {'/usr/local/sbin/multiprocessing-rdiff-backup.py':
-    ensure  => present,
+    ensure  => file,
     owner   => 'root',
     group   => 'root',
     mode    => '0755',
