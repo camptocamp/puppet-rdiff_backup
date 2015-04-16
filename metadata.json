@@ -1,12 +1,12 @@
 {
-  "name": "camptocamp-rdiff-backup",
+  "name": "camptocamp-rdiff_backup",
   "version": "1.0.0",
   "author": "Camptocamp",
-  "summary": "Puppet Rdiff_backup module",
+  "summary": "Puppet rdiff-backup module",
   "license": "Apache-2.0",
-  "source": "https://github.com/camptocamp/puppet-rdiff-backup",
-  "project_page": "https://github.com/camptocamp/puppet-rdiff-backup",
-  "issues_url": "https://github.com/camptocamp/puppet-rdiff-backup/issues",
+  "source": "https://github.com/camptocamp/puppet-rdiff_backup",
+  "project_page": "https://github.com/camptocamp/puppet-rdiff_backup",
+  "issues_url": "https://github.com/camptocamp/puppet-rdiff_backup/issues",
   "dependencies": [
   ],
   "requirements": [
@@ -20,7 +20,8 @@
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
         "6",
-        "7"
+        "7",
+        "8"
       ]
     },
     {
