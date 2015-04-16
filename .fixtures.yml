@@ -1,8 +1,8 @@
 fixtures:
-  repositories:
-    buildenv: https://github.com/camptocamp/puppet-buildenv.git
-    concat: https://github.com/puppetlabs/puppetlabs-concat.git
-    python: https://github.com/camptocamp/puppet-python.git
-    stdlib: https://github.com/puppetlabs/puppetlabs-stdlib.git
+  forge_modules:
+    buildenv: 'camptocamp-buildenv'
+    concat: 'puppetlabs-concat'
+    python: 'camptocamp-python'
+    stdlib: 'puppetlabs-stdlib'
   symlinks:
     rdiff_backup: "#{source_dir}"
