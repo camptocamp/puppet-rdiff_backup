@@ -1,6 +1,6 @@
 {
   "name": "camptocamp-rdiff_backup",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "author": "Camptocamp",
   "summary": "Puppet rdiff-backup module",
   "license": "Apache-2.0",
