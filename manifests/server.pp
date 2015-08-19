@@ -37,13 +37,15 @@ class rdiff_backup::server (
 
   case $::operatingsystem {
     'Debian': {
-      package {
-        'librsync-dev':  ensure => present, alias => 'librsync-devel';
+      package { 'librsync-devel':
+        ensure => present,
+        name   => 'librsync-dev',
       }
     }
     'RedHat': {
-      package {
-        'librsync-devel': ensure => present, alias => 'librsync-devel';
+      package { 'librsync-devel':
+        ensure => present,
+        name   => 'librsync-devel',
       }
     }
     default: {
