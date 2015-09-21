@@ -23,7 +23,7 @@ define rdiff_backup::server::install (
         unless      => "test -f /opt/rdiff-backup/${version}/bin/rdiff-backup",
         refreshonly => true,
         path        => $::path,
-        require     => Package['librsync-devel', 'python-dev'],
+        require     => Package['librsync-devel', 'python-devel'],
       }
     }
     'absent': {
