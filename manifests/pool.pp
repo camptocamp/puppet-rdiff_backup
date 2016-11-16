@@ -4,10 +4,10 @@ define rdiff_backup::pool (
   $ensure=present,
 ) {
 
-  concat::fragment {$name:
-    ensure  => $ensure,
-    target  => '/etc/multiprocessing-rdiff-backup.conf',
-    content => template('rdiff_backup/pool.erb'),
+  if $ensure == 'present' {
+    concat::fragment {$name:
+      target  => '/etc/multiprocessing-rdiff-backup.conf',
+      content => template('rdiff_backup/pool.erb'),
+    }
   }
-
 }
