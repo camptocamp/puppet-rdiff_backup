@@ -1,6 +1,6 @@
 fixtures:
   forge_modules:
-    archive: 'camptocamp-archive'
+    archive: 'puppet-archive'
     buildenv: 'camptocamp-buildenv'
     concat: 'puppetlabs-concat'
     python: 'camptocamp-python'
