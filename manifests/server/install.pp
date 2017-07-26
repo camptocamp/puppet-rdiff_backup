@@ -8,13 +8,11 @@ define rdiff_backup::server::install (
 
   case $ensure {
     'present': {
-      archive{$version:
-        ensure   => present,
-        checksum => false,
-        url      => "${rdiff_backup::params::download_url}${version}.tar.gz",
-        target   => '/opt/rdiff-backup',
-        notify   => Exec["install ${version}"],
-        require  => File['/opt/rdiff-backup'],
+      archive{"/opt/rdiff-backup/${version}":
+        ensure  => present,
+        source  => "${rdiff_backup::params::download_url}${version}.tar.gz",
+        notify  => Exec["install ${version}"],
+        require => File['/opt/rdiff-backup'],
       }
 
       exec {"install ${version}":
