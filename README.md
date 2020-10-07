@@ -4,7 +4,7 @@
 [![Gemnasium](https://img.shields.io/gemnasium/camptocamp/puppet-rdiff_backup.svg)](https://gemnasium.com/camptocamp/puppet-rdiff_backup)
 [![By Camptocamp](https://img.shields.io/badge/by-camptocamp-fb7047.svg)](http://www.camptocamp.com)
 
-==========================
+
 rdiff-backup Puppet module
 ==========================
 
